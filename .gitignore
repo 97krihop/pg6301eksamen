@@ -1,0 +1,11 @@
+/.idea/
+*.iml
+node_modules/
+.cache/
+.parcel-cache/
+dist/
+package-lock.json
+coverage/
+.env
+*.crt
+*.key
