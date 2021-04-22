@@ -14,7 +14,7 @@ export const postJson = async (url: string, json: Object = {}) => {
   }
 };
 export const fetchJson = async (url: string, options: RequestInit = {}) => {
-  const res = await fetch(url,options);
+  const res = await fetch(url, options);
   checkResult(res, url);
   return await res.json();
 };
@@ -34,7 +34,7 @@ export class HttpException extends Error {
   }
 }
 
-export function randomString(length:number) {
+export function randomString(length: number) {
   const possible =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmopqrstuvwxyz1234567890";
   let result = "";
@@ -43,7 +43,7 @@ export function randomString(length:number) {
   }
   return result;
 }
-export async function sha256(string:string) {
+export async function sha256(string: string) {
   const binaryHash = await crypto.subtle.digest(
     "SHA-256",
     new TextEncoder().encode(string)
