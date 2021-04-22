@@ -9,7 +9,6 @@ export function useLoading<T>(loadingFunction: () => Promise<T>, deps = []) {
     setLoading(true);
     setData(null);
     setError(undefined);
-    console.log()
     try {
       setData(await loadingFunction());
     } catch (e) {
