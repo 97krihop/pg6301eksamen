@@ -34,7 +34,7 @@ export class HttpException extends Error {
   }
 }
 
-export function randomString(length: number) {
+export const randomString = (length: number) => {
   const possible =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmopqrstuvwxyz1234567890";
   let result = "";
@@ -42,8 +42,9 @@ export function randomString(length: number) {
     result += possible.charAt(Math.floor(Math.random() * possible.length));
   }
   return result;
-}
-export async function sha256(string: string) {
+};
+
+export const sha256 = async (string: string) => {
   const binaryHash = await crypto.subtle.digest(
     "SHA-256",
     new TextEncoder().encode(string)
@@ -53,4 +54,4 @@ export async function sha256(string: string) {
     .split("=")[0]
     .replace(/\+/g, "-")
     .replace(/\//g, "_");
-}
+};

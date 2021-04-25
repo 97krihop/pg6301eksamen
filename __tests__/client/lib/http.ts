@@ -2,6 +2,7 @@ import {
   fetchJson,
   HttpException,
   postJson,
+  randomString,
 } from "../../../src/client/lib/http";
 
 let post: string;
@@ -59,5 +60,9 @@ describe("http", () => {
     } catch (e) {
       expect(e).toBeInstanceOf(HttpException);
     }
+  });
+  it("should get random string", async () => {
+    const length = 30;
+    expect(randomString(length).length).toEqual(length);
   });
 });

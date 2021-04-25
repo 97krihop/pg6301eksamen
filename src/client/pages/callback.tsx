@@ -6,12 +6,12 @@ export function Callback({
 }: {
   onAccessToken: (x: string) => void;
 }) {
+  const history = useHistory();
+
   // @ts-ignore
   const hash = Object.fromEntries(
     new URLSearchParams(window.location.hash.substr(1))
   );
-
-  const history = useHistory();
 
   useEffect(() => {
     const loginState = JSON.parse(
@@ -24,8 +24,7 @@ export function Callback({
       return;
     }
     onAccessToken(access_token);
-    // TODO: I'll keep this for now for debugging
-    //sessionStorage.removeItem("loginState");
+    sessionStorage.removeItem("loginState");
     history.push("/");
   }, [hash]);
 
