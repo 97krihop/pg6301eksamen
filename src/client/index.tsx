@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { Route, Switch } from "react-router";
 import { BrowserRouter, Link } from "react-router-dom";
@@ -14,7 +14,6 @@ import { Callback } from "./pages/callback";
 
 export interface IIdentityProvider {
   discoveryURL: string;
-  client_id: string;
   params: {
     response_type: string;
     client_id: string;
@@ -25,23 +24,34 @@ export interface IIdentityProvider {
 }
 
 const App = () => {
-  /*
-  const [socket, setSocket] = useState<WebSocket>();
+  const [socket, setSocket] = useState<WebSocket | null>(null);
+  const [connected, setConnected] = useState<boolean>(false);
   useEffect(() => {
     const protocol =
       window.location.protocol.toLowerCase() === "https:" ? "wss:" : "ws:";
-    if (!socket)
+    if (!socket) {
       setSocket(new WebSocket(`${protocol}//${window.location.host}`));
+      setConnected(true);
+    }
+    if (socket) {
+      socket.onclose = (closeEvent) => {
+        setTimeout(
+          () => {
+            setSocket(new WebSocket(`${protocol}//${window.location.host}`));
+            setConnected(true);
+          },
+          connected ? 1_000 : 10_000
+        );
+      };
+    }
     return () => {
       socket?.close();
-      setSocket(undefined);
+      setSocket(null);
     };
   }, []);
-*/
+
   const [access_token, setAccess_token] = useLocalStorage("access_token");
   const googleAuth: IIdentityProvider = {
-    client_id:
-      "108551637679-hvu34vf25vk1m1puoo2rhev2dv0tg7g0.apps.googleusercontent.com",
     discoveryURL:
       "https://accounts.google.com/.well-known/openid-configuration",
     params: {
@@ -99,5 +109,4 @@ const App = () => {
     </BrowserRouter>
   );
 };
-
 ReactDOM.render(<App />, document.getElementById("root"));
