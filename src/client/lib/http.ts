@@ -1,8 +1,9 @@
-export const postJson = async (url: string, json: Object = {}) => {
+export const postJson = async (url: string, json: Object = {},headers:HeadersInit = {}) => {
   const res = await fetch(url, {
     method: "POST",
     body: JSON.stringify(json),
     headers: {
+      ...headers,
       "Content-Type": "application/json",
     },
   });

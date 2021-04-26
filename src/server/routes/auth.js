@@ -9,6 +9,6 @@ router.get("/profile", async (req, res) => {
 router.post("/login", async (req, res) => {
   if (!req.userinfo) return res.send(401);
   req.session.userId = req.userinfo.email;
-  return res.send(201).send();
+  res.status(201).json({});
 });
 module.exports = router;

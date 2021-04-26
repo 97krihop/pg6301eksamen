@@ -22,10 +22,23 @@ export interface IIdentityProvider {
     state?: string;
   };
 }
+const googleAuth: IIdentityProvider = {
+  discoveryURL:
+    "https://accounts.google.com/.well-known/openid-configuration",
+  params: {
+    response_type: "token",
+    client_id:
+      "108551637679-hvu34vf25vk1m1puoo2rhev2dv0tg7g0.apps.googleusercontent.com",
+    scope: "openid email profile",
+    redirect_uri: window.location.origin + "/login/callback",
+  },
+};
 
 const App = () => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [connected, setConnected] = useState<boolean>(false);
+  const [access_token, setAccess_token] = useLocalStorage("access_token");
+
   useEffect(() => {
     const protocol =
       window.location.protocol.toLowerCase() === "https:" ? "wss:" : "ws:";
@@ -48,20 +61,7 @@ const App = () => {
       socket?.close();
       setSocket(null);
     };
-  }, []);
-
-  const [access_token, setAccess_token] = useLocalStorage("access_token");
-  const googleAuth: IIdentityProvider = {
-    discoveryURL:
-      "https://accounts.google.com/.well-known/openid-configuration",
-    params: {
-      response_type: "token",
-      client_id:
-        "108551637679-hvu34vf25vk1m1puoo2rhev2dv0tg7g0.apps.googleusercontent.com",
-      scope: "openid email profile",
-      redirect_uri: window.location.origin + "/login/callback",
-    },
-  };
+  }, [access_token]);
 
   const loadProfile = async (): Promise<{ name: string; picture: string }> => {
     return await fetchJson("/api/profile", {
