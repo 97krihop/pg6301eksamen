@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router";
 import { BrowserRouter, Link } from "react-router-dom";
 
 import "../../public/css.css";
-import { NotFound } from "./pages/not_found";
+import { NotFound } from "./pages/notFound";
 import { Home } from "./pages/home";
 import { Login } from "./pages/login";
 import { Profile } from "./pages/profile";
