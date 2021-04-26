@@ -6,7 +6,7 @@ function getMessages(id) {
 
 function createNewMessage(id, recipients) {
   if (!getMessages(id)) {
-    Messages.set(id, { messages: [], recipients });
+    Messages.set(id, { message: [], recipients });
     return true;
   }
   return false;
@@ -15,7 +15,8 @@ function createNewMessage(id, recipients) {
 function addMessage(id, message) {
   const messages = getMessages(id);
   if (messages) {
-    messages.messages.push(message);
+    messages.message.push(message);
+    console.log(JSON.stringify(messages));
     Messages.set(id, messages);
     return true;
   }
@@ -25,7 +26,7 @@ function addMessage(id, message) {
 function getAllMessages(email) {
   const messages = [];
   Messages.forEach((v) => {
-    if (v.recipients.includes(email)) messages.push(v);
+    if (v.recipients.includes(email)) messages.push(...v.message);
   });
   return messages;
 }
