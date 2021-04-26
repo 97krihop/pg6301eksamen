@@ -6,7 +6,9 @@ export const useSubmit = (
   onSubmitSuccess: () => void
 ) => {
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<typeof HttpException | undefined>();
+  const [error, setError] = useState<
+    typeof HttpException | Error | undefined
+  >();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -14,10 +16,10 @@ export const useSubmit = (
     setError(undefined);
     try {
       await subFunc();
+      setSubmitting(false);
       onSubmitSuccess();
     } catch (e) {
       setError(e);
-    } finally {
       setSubmitting(false);
     }
   };

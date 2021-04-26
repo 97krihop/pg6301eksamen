@@ -18,6 +18,7 @@ function createUser(email, password, firstname, lastname) {
     firstname,
     lastname,
   };
+  console.log(user)
   users.set(email, user);
   return true;
 }

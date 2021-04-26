@@ -1,22 +1,30 @@
 const express = require("express");
-const { createUser } = require("../db/users");
+const { createUser, verifyUser, getUser } = require("../db/users");
 
 const router = express.Router();
 
 router.get("/profile", async (req, res) => {
   if (!req.session.userinfo) return res.send(401);
+
   return res.json(req.session.userinfo);
+});
+router.post("/login", (req, res) => {
+  const { email, password } = req.body;
+  if (verifyUser(email, password)) {
+    req.session.userinfo = getUser(email);
+    return res.status(204).send();
+  }
+  res.status(401).send();
 });
 
 router.post("/signup", (req, res) => {
   if (!req.session.userinfo) return res.send(401);
 
-  const { email, password, firstname, lastname } = req.body;
+  const { email, password, firstName, lastName } = req.body;
+  console.log(req.body);
+  const success = createUser(email, password, firstName, lastName);
 
-  const success = createUser(email, password, firstname, lastname);
-
-  if (!success)
-    return res.status(401).send();
+  if (!success) return res.status(401).send();
   res.status(201).json({});
 });
 router.post("/logout", (req, res) => {
@@ -32,9 +40,12 @@ router.post("/callback", (req, res) => {
     given_name: firstname,
     family_name: lastname,
   } = userinfo;
+
+  req.session.userinfo.firstname = firstname;
+  req.session.userinfo.lastname = lastname;
+
   const success = createUser(email, password, firstname, lastname);
-  if (!success)
-    return res.status(200).json({});
+  if (!success) return res.status(200).json({});
   res.status(201).json({});
 });
 

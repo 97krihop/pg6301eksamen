@@ -6,6 +6,8 @@ import { fetchJson } from "../lib/http";
 interface data {
   name: string;
   picture: string;
+  firstname: string;
+  lastname: string;
 }
 
 export function Profile() {
@@ -21,7 +23,9 @@ export function Profile() {
     return (
       <div>
         <h1>Profile</h1>
-        <div>{data.name}</div>
+        <div>
+          {data.firstname} {data.lastname}
+        </div>
         {data.picture && (
           <div>
             <img src={data.picture} alt="pic" />
