@@ -16,7 +16,6 @@ function addMessage(id, message) {
   const messages = getMessages(id);
   if (messages) {
     messages.message.push(message);
-    console.log(JSON.stringify(messages));
     Messages.set(id, messages);
     return true;
   }

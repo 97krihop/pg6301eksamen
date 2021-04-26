@@ -12,7 +12,7 @@ jest.mock("../../../src/client/lib/useSubmit");
 
 let count = 0;
 const handleSubmit = async (e: Event) => {
-  e.preventDefault()
+  e.preventDefault();
   count++;
 };
 

@@ -7,7 +7,6 @@ wss.on("connection", (ws, request) => {
   const { email } = request.session.userinfo;
 
   map.set(email, ws);
-  console.log("user conected " + email);
 
   ws.on("message", async (data) => {
     const { recipients: oldRecipients, message } = await JSON.parse(data);

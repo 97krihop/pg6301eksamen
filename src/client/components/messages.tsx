@@ -27,7 +27,6 @@ export const Messages = () => {
   }, []);
   useEffect(() => {
     if (data) setMessages(data);
-    console.log(messages);
   }, [data]);
 
   const wsConnect = () => {
@@ -37,8 +36,6 @@ export const Messages = () => {
       const ws = new WebSocket(`${protocol}//${window.location.host}`);
       setSocket(ws);
       connected.current = true;
-
-      console.log("socket");
 
       ws.onmessage = (e) => {
         const { message } = JSON.parse(e.data);

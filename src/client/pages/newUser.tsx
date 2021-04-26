@@ -13,7 +13,6 @@ export const NewUser = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
-
   const history = useHistory();
   const { handleSubmit, submitting, error: postError } = useSubmit(
     async () => {

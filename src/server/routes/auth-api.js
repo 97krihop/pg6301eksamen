@@ -21,7 +21,6 @@ router.post("/signup", (req, res) => {
   if (!req.session.userinfo) return res.send(401);
 
   const { email, password, firstName, lastName } = req.body;
-  console.log(req.body);
   const success = createUser(email, password, firstName, lastName);
 
   if (!success) return res.status(401).send();
