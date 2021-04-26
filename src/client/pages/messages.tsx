@@ -1,39 +1,56 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLoading } from "../lib/useLoading";
 import { fetchJson } from "../lib/http";
 import { ErrorView } from "../components/errorView";
 
 export const Messages = () => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [connected, setConnected] = useState<boolean>(false);
-
-  useEffect(() => {
-    const protocol =
-      window.location.protocol.toLowerCase() === "https:" ? "wss:" : "ws:";
-    if (!socket) {
-      setSocket(new WebSocket(`${protocol}//${window.location.host}`));
-      setConnected(true);
-    }
-    if (socket) {
-      socket.onclose = () => {
-        setTimeout(
-          () => {
-            setSocket(new WebSocket(`${protocol}//${window.location.host}`));
-            setConnected(true);
-          },
-          connected ? 1_000 : 10_000
-        );
-      };
-    }
-    return () => {
-      socket?.close();
-      setSocket(null);
-    };
-  }, []);
-
+  const [messages, setMessages] = useState<any>([]);
+  const connected = useRef<boolean>(false);
   const { error, loading, data, reload } = useLoading(async () => {
     return await fetchJson("/api/messages/all");
   });
+
+  useEffect(() => {
+    wsConnect();
+    return () => {
+      socket?.close();
+      setSocket(null);
+      connected.current = false;
+    };
+  }, []);
+
+  const wsConnect = () => {
+    if (!socket) {
+      const protocol =
+        window.location.protocol.toLowerCase() === "https:" ? "wss:" : "ws:";
+      const ws = new WebSocket(`${protocol}//${window.location.host}`);
+      setSocket(ws);
+      connected.current = true;
+
+      console.log("socket");
+
+      ws.onmessage = (e) => {
+        const { recipients, message } = JSON.parse(e.data);
+        console.log(recipients, message);
+        setMessages((prev: any) => [...prev, message]);
+      };
+
+      ws.onopen = () => {
+        console.log("open");
+      };
+      ws.onclose = () => {
+        setTimeout(
+          () => {
+            wsConnect();
+            connected.current = false;
+          },
+          connected.current ? 1_000 : 10_000
+        );
+      };
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error)
     return (
@@ -45,8 +62,11 @@ export const Messages = () => {
   if (data)
     return (
       <>
+        {JSON.stringify(messages)}
+        <br />
         <button
           onClick={() => {
+            console.log("click");
             socket?.send(
               JSON.stringify({
                 recipients: ["a@a.com", "97krihop@gmail.com"],
@@ -57,8 +77,7 @@ export const Messages = () => {
         >
           submit a socket message
         </button>
-
-        <div>{data.toString()}</div>
+        <div>{JSON.stringify(data)}</div>
         <button onClick={reload}>reload</button>
       </>
     );

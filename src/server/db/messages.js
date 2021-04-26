@@ -6,7 +6,7 @@ function getMessages(id) {
 
 function createNewMessage(id, recipients) {
   if (!getMessages(id)) {
-    Messages.set(id, { id, messages: [], recipients });
+    Messages.set(id, { messages: [], recipients });
     return true;
   }
   return false;

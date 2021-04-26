@@ -7,16 +7,20 @@ wss.on("connection", (ws, request) => {
   const { email } = request.session.userinfo;
 
   map.set(email, ws);
+  console.log("user conected " + email);
+
 
   ws.on("message", async (data) => {
     const { recipients, message } = await JSON.parse(data);
-    createNewMessage(recipients.sort(), [email, ...recipients]);
+
+    createNewMessage(recipients.sort(), recipients);
     addMessage(recipients.sort(), { email, message });
     console.log(recipients, message);
 
     recipients.forEach((recipient) => {
-      if (recipient === email) return;
-      const socket = map.get(request);
+      // if (recipient === email) return;
+      const socket = map.get(recipient);
+      console.log("socket");
       if (!socket) console.log(`${recipient} dosen\`t have a socket right now`);
       else
         socket.send(
