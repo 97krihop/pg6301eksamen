@@ -9,16 +9,19 @@ wss.on("connection", (ws, request) => {
   map.set(email, ws);
 
   ws.on("message", async (data) => {
-    const { recipients, message } = data.toJSON();
+    const { recipients, message } = await JSON.parse(data);
     createNewMessage(recipients.sort(), [email, ...recipients]);
     addMessage(recipients.sort(), { email, message });
+    console.log(recipients, message);
 
     recipients.forEach((recipient) => {
-      if (recipients === email) return;
+      if (recipient === email) return;
       const socket = map.get(request);
       if (!socket) console.log(`${recipient} dosen\`t have a socket right now`);
-
-      socket.send(JSON.stringify({ recipients, message: { email, message } }));
+      else
+        socket.send(
+          JSON.stringify({ recipients, message: { email, message } })
+        );
     });
     console.log(`Received message ${data} from user ${email}`);
   });

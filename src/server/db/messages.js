@@ -15,7 +15,7 @@ function createNewMessage(id, recipients) {
 function addMessage(id, message) {
   const messages = getMessages(id);
   if (messages) {
-    messages.message.push(message);
+    messages.messages.push(message);
     Messages.set(id, messages);
     return true;
   }
@@ -25,7 +25,7 @@ function addMessage(id, message) {
 function getAllMessages(email) {
   const messages = [];
   Messages.forEach((v) => {
-    if (v.recipients.contains(email)) messages.push(v);
+    if (v.recipients.includes(email)) messages.push(v);
   });
   return messages;
 }

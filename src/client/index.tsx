@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import { Route, Switch } from "react-router";
 import { BrowserRouter, Link } from "react-router-dom";
@@ -11,6 +11,7 @@ import { Profile } from "./pages/profile";
 import { Callback } from "./pages/callback";
 import { Logout } from "./pages/logout";
 import { NewUser } from "./pages/newUser";
+import { Messages } from "./pages/messages";
 
 export interface IIdentityProvider {
   discoveryURL: string;
@@ -35,33 +36,6 @@ const googleAuth: IIdentityProvider = {
 };
 
 const App = () => {
-  const [socket, setSocket] = useState<WebSocket | null>(null);
-  const [connected, setConnected] = useState<boolean>(false);
-
-  useEffect(() => {
-    const protocol =
-      window.location.protocol.toLowerCase() === "https:" ? "wss:" : "ws:";
-    if (!socket) {
-      setSocket(new WebSocket(`${protocol}//${window.location.host}`));
-      setConnected(true);
-    }
-    if (socket) {
-      socket.onclose = () => {
-        setTimeout(
-          () => {
-            setSocket(new WebSocket(`${protocol}//${window.location.host}`));
-            setConnected(true);
-          },
-          connected ? 1_000 : 10_000
-        );
-      };
-    }
-    return () => {
-      socket?.close();
-      setSocket(null);
-    };
-  }, []);
-
   return (
     <BrowserRouter>
       <nav>
@@ -84,6 +58,10 @@ const App = () => {
         <Link to={"/newUser"}>
           <button className="button">new User</button>
         </Link>
+        {"  "}
+        <Link to={"/messages"}>
+          <button className="button">messages</button>
+        </Link>
       </nav>
 
       <main>
@@ -102,6 +80,9 @@ const App = () => {
           </Route>
           <Route path={"/newUser"}>
             <NewUser />
+          </Route>
+          <Route path={"/messages"}>
+            <Messages />
           </Route>
           <Route path={"/login/callback"}>
             <Callback />
