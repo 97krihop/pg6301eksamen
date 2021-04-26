@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import { HttpException } from "./http";
 
 export const useSubmit = (
@@ -6,11 +6,9 @@ export const useSubmit = (
   onSubmitSuccess: () => void
 ) => {
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<typeof HttpException | undefined>(
-    undefined
-  );
+  const [error, setError] = useState<typeof HttpException | undefined>();
 
-  const handleSubmit = async (e: ChangeEvent<HTMLInputElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
     setError(undefined);

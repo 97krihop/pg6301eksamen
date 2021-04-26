@@ -17,7 +17,7 @@ router.post("/signup", (req, res) => {
 
   if (!success)
     return res.status(401).send();
-  res.status(201).send();
+  res.status(201).json({});
 });
 router.post("/logout", (req, res) => {
   req.session.destroy();
