@@ -1,5 +1,5 @@
 const express = require("express");
-const { getMessages,getAllMessages} = require("../db/messages");
+const { getMessages, getAllMessages } = require("../db/messages");
 
 const router = express.Router();
 

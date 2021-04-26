@@ -24,7 +24,11 @@ export function Callback() {
       alert("you did not get hear legally");
       return;
     }
-    await postJson("/api/callback", {}, { Authorization: `Bearer ${access_token}` })
+    await postJson(
+      "/api/callback",
+      {},
+      { Authorization: `Bearer ${access_token}` }
+    );
     sessionStorage.removeItem("loginState");
     history.push("/");
   };
