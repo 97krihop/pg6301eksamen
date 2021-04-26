@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router";
+import { postJson } from "../lib/http";
 
-export function Callback({
-  onAccessToken,
-}: {
-  onAccessToken: (x: string) => void;
-}) {
+export function Callback() {
   const history = useHistory();
 
   // @ts-ignore
@@ -27,7 +24,7 @@ export function Callback({
       alert("you did not get hear legally");
       return;
     }
-    onAccessToken(access_token);
+    await postJson("/api/callback", {}, { Authorization: `Bearer ${access_token}` })
     sessionStorage.removeItem("loginState");
     history.push("/");
   };

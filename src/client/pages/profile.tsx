@@ -1,23 +1,21 @@
 import React from "react";
 import { useLoading } from "../lib/useLoading";
+import { ErrorView } from "../components/errorView";
+import { fetchJson } from "../lib/http";
 
 interface data {
   name: string;
   picture: string;
 }
 
-export function Profile({ loadProfile }: { loadProfile: () => Promise<data> }) {
-  const { loading, error, data } = useLoading<data>(loadProfile);
+export function Profile() {
+  const { loading, error, data } = useLoading<data>(
+    async () => await fetchJson("/api/profile")
+  );
 
   if (loading) return <div>Loading...</div>;
 
-  if (error)
-    return (
-      <div>
-        <h1>An error occurred</h1>
-        <div>{error}</div>
-      </div>
-    );
+  if (error) return <ErrorView error={error} />;
 
   if (data)
     return (

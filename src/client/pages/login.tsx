@@ -20,7 +20,7 @@ export const Login = ({ identityProvider }: props) => {
   return (
     <div>
       <h1>Login</h1>
-      <button onClick={handleLogin}>Login</button>
+      <button onClick={handleLogin}>login with google</button>
     </div>
   );
 };
