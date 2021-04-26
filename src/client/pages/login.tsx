@@ -1,7 +1,7 @@
 import React from "react";
 import { IIdentityProvider } from "../index";
 import { LoginComponent } from "../components/loginComponent";
-import { GoogleLogin } from "../components/googleLoginComponent";
+import { googleLogin } from "../lib/googleLogin";
 
 interface props {
   identityProvider: IIdentityProvider;
@@ -14,7 +14,15 @@ export const Login = ({ identityProvider }: props) => {
       <br />
       <LoginComponent />
       <br />
-      <GoogleLogin identityProvider={identityProvider} />
+      <div>
+        <button
+          onClick={() => {
+            googleLogin(identityProvider);
+          }}
+        >
+          login with google
+        </button>
+      </div>
     </div>
   );
 };
