@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 
 const request = require("supertest");
-const app = require("../../src/server/app");
+const { app } = require("../../src/server/app");
 
 it("should return index.html", async () => {
   const res = await request(app).get("/");
