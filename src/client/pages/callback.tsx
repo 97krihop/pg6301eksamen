@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router";
-import { postJson } from "../lib/http";
 
 export function Callback({
   onAccessToken,
@@ -29,11 +28,6 @@ export function Callback({
       return;
     }
     onAccessToken(access_token);
-    await postJson(
-      "/api/login",
-      {},
-      { Authorization: `Bearer ${access_token}` }
-    );
     sessionStorage.removeItem("loginState");
     history.push("/");
   };

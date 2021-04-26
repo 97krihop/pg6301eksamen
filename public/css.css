@@ -1,0 +1,7 @@
+body{
+    background-color: #333333;
+    color: #dddddd;
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+}
