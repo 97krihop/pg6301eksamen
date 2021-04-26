@@ -3,7 +3,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const { googleOAuth } = require("./middelware/googleOpenID");
-const auth = require("./routes/auth");
+const auth = require("./routes/auth-api");
 const app = express();
 
 const sessionParser = session({
