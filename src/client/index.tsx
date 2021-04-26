@@ -11,7 +11,6 @@ import { Profile } from "./pages/profile";
 import { Callback } from "./pages/callback";
 import { Logout } from "./pages/logout";
 import { NewUser } from "./pages/newUser";
-import { Messages } from "./pages/messages";
 
 export interface IIdentityProvider {
   discoveryURL: string;
@@ -58,10 +57,6 @@ const App = () => {
         <Link to={"/newUser"}>
           <button className="button">new User</button>
         </Link>
-        {"  "}
-        <Link to={"/messages"}>
-          <button className="button">messages</button>
-        </Link>
       </nav>
 
       <main>
@@ -80,9 +75,6 @@ const App = () => {
           </Route>
           <Route path={"/newUser"}>
             <NewUser />
-          </Route>
-          <Route path={"/messages"}>
-            <Messages />
           </Route>
           <Route path={"/login/callback"}>
             <Callback />
