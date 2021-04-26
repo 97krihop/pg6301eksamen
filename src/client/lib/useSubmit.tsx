@@ -3,7 +3,7 @@ import { HttpException } from "./http";
 
 export const useSubmit = (
   subFunc: () => Promise<void>,
-  onSubmitSuccess: () => void
+  onSubmitSuccess?: () => void
 ) => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<
@@ -17,7 +17,7 @@ export const useSubmit = (
     try {
       await subFunc();
       setSubmitting(false);
-      onSubmitSuccess();
+      if (onSubmitSuccess) onSubmitSuccess();
     } catch (e) {
       setError(e);
       setSubmitting(false);

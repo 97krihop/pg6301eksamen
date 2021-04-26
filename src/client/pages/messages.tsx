@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLoading } from "../lib/useLoading";
 import { fetchJson } from "../lib/http";
 import { ErrorView } from "../components/errorView";
+import { InputField } from "../components/inputField";
+import { useSubmit } from "../lib/useSubmit";
 
 export const Messages = () => {
   const [socket, setSocket] = useState<WebSocket | null>(null);
@@ -10,6 +12,8 @@ export const Messages = () => {
   const { error, loading, data, reload } = useLoading(async () => {
     return await fetchJson("/api/messages/all");
   });
+  const [newMessage, setNewMessage] = useState<string>("");
+  const [recipients, setRecipients] = useState<string>("");
 
   useEffect(() => {
     wsConnect();
@@ -19,6 +23,10 @@ export const Messages = () => {
       connected.current = false;
     };
   }, []);
+  useEffect(() => {
+    if (data) setMessages(data);
+    console.log(messages);
+  }, [data]);
 
   const wsConnect = () => {
     if (!socket) {
@@ -32,7 +40,6 @@ export const Messages = () => {
 
       ws.onmessage = (e) => {
         const { recipients, message } = JSON.parse(e.data);
-        console.log(recipients, message);
         setMessages((prev: any) => [...prev, message]);
       };
 
@@ -50,6 +57,15 @@ export const Messages = () => {
       };
     }
   };
+  const { handleSubmit, submitting, error: postError } = useSubmit(async () => {
+    socket?.send(
+      JSON.stringify({
+        recipients: recipients.split(" "),
+        message: newMessage,
+      })
+    );
+    setNewMessage("");
+  });
 
   if (loading) return <div>Loading...</div>;
   if (error)
@@ -59,25 +75,34 @@ export const Messages = () => {
         <button onClick={reload}>reload</button>
       </>
     );
-  if (data)
+  if (messages)
     return (
       <>
-        {JSON.stringify(messages)}
+        {postError && postError.toString()}
+        <ul>
+          {messages &&
+            messages.map((m: { email: any; message: any }, i: React.Key) => (
+              <li
+                className={"messagesList"}
+                key={i}
+              >{`${m.email} : ${m.message}`}</li>
+            ))}
+        </ul>
         <br />
-        <button
-          onClick={() => {
-            console.log("click");
-            socket?.send(
-              JSON.stringify({
-                recipients: ["a@a.com", "97krihop@gmail.com"],
-                message: "test",
-              })
-            );
-          }}
-        >
-          submit a socket message
-        </button>
-        <div>{JSON.stringify(data)}</div>
+        <form onSubmit={handleSubmit}>
+          <InputField
+            value={newMessage}
+            onValueChange={setNewMessage}
+            label={"message"}
+          />
+          <InputField
+            value={recipients}
+            onValueChange={setRecipients}
+            label={"send to(email split on space)"}
+          />
+          <button disabled={submitting}> submit a socket message</button>
+        </form>
+        <br />
         <button onClick={reload}>reload</button>
       </>
     );

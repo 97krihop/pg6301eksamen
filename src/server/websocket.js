@@ -10,8 +10,8 @@ wss.on("connection", (ws, request) => {
   console.log("user conected " + email);
 
   ws.on("message", async (data) => {
-    const { recipients, message } = await JSON.parse(data);
-
+    const { recipients: oldRecipients, message } = await JSON.parse(data);
+    const recipients = [...oldRecipients, email];
     createNewMessage(JSON.stringify(recipients.sort()), recipients);
     addMessage(JSON.stringify(recipients.sort()), { email, message });
     recipients.forEach((recipient) => {
