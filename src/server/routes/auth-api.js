@@ -31,7 +31,6 @@ router.post("/signup", (req, res) => {
   res.status(201).json({});
 });
 router.post("/logout", (req, res) => {
-  if (!req.session.userinfo) return res.status(401).send();
   req.session.destroy();
   res.status(204).send();
 });
