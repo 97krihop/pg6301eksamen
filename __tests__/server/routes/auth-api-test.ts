@@ -10,7 +10,7 @@ const {
 
 const app = express();
 const sessionParser = session({
-  secret: "PDvhA88XzGqgALEiQ2ttVZCwJWMx",
+  secret: "test",
   resave: false,
   saveUninitialized: false,
 });
@@ -26,7 +26,7 @@ beforeEach(() => {
   makeDefaultUser();
 });
 
-const loginAsDefaultUser = async (agent: any) => {
+export const loginAsDefaultUser = async (agent: any) => {
   const res = await agent
     .post("/login")
     .send({
