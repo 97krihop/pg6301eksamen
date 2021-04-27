@@ -16,10 +16,6 @@ export const NewUser = () => {
   const history = useHistory();
   const { handleSubmit, submitting, error: postError } = useSubmit(
     async () => {
-      if (password.length <= 6) throw new Error("password is to short");
-      if (password !== confirmPassword)
-        throw new Error("password dose not match");
-      if (!validateEmail(email)) throw new Error("email is not correct");
       await postJson("/api/signup", {
         email,
         password,
@@ -35,11 +31,6 @@ export const NewUser = () => {
   const { loading, error } = useLoading(
     async () => await fetchJson("/api/profile")
   );
-  // source form https://stackoverflow.com/questions/46155/how-to-validate-an-email-address-in-javascript
-  const validateEmail = (email: string) => {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  };
 
   if (error) return <ErrorView error={error} />;
 
