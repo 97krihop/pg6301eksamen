@@ -39,7 +39,6 @@ export const Messages = () => {
 
       ws.onmessage = (e) => {
         const { message } = JSON.parse(e.data);
-        console.log(message);
         setMessages((prev: any) => [...prev, message]);
       };
 

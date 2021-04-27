@@ -4,6 +4,7 @@ import { Messages } from "../../../src/client/components/messages";
 import { useLoading } from "../../../src/client/lib/useLoading";
 import userEvent from "@testing-library/user-event";
 import { useSubmit } from "../../../src/client/lib/useSubmit";
+import WS from "jest-websocket-mock";
 
 jest.mock("../../../src/client/lib/useLoading");
 jest.mock("../../../src/client/lib/useSubmit");
@@ -62,4 +63,16 @@ describe("test message component", () => {
     });
     screen.getByText("Loading...");
   });
+
+  it("should render and have a websocketServer and server sends a message", async () => {
+    const server = new WS("ws://localhost", { jsonProtocol: true });
+    act(() => {
+      render(<Messages />);
+    });
+    await server.connected;
+    server.send({message:{email:"test",message:"test"}});
+    await screen.findByText("test : test")
+    WS.clean()
+  });
+
 });
