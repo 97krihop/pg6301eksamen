@@ -5,4 +5,5 @@ const fetchJson = async (url, options) => {
     throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
   return await res.json();
 };
-module.exports = fetchJson
+
+module.exports = fetchJson;
