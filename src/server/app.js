@@ -1,15 +1,16 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const googleOAuth = require("./middelware/googleOpenID");
 const auth = require("./routes/auth-api");
-const conversasion = require("./routes/conversasion-api");
+const conversations = require("./routes/conversasion-api");
 
 const app = express();
 
 const sessionParser = session({
-  secret: "PDvhA88XzGqgALEiQ2ttVZCwJWMx",
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
 });
@@ -23,7 +24,7 @@ app.use(express.static(path.resolve(__dirname, "..", "..", "dist")));
 app.use(googleOAuth);
 //routes
 app.use("/api", auth);
-app.use("/api", conversasion);
+app.use("/api", conversations);
 //react router
 app.use((req, res, next) => {
   if (req.method !== "GET" || req.path.startsWith("/api")) return next();
