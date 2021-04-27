@@ -30,4 +30,14 @@ function getAllMessages(email) {
   return messages;
 }
 
-module.exports = { getMessages, createNewMessage, addMessage, getAllMessages };
+function clearMessages() {
+  Messages.clear();
+}
+
+module.exports = {
+  getMessages,
+  createNewMessage,
+  addMessage,
+  getAllMessages,
+  clearMessages,
+};
