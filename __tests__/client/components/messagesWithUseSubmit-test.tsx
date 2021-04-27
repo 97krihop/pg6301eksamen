@@ -36,7 +36,6 @@ it("should render and have a websocketServer", async () => {
 
   server.send({ message: { email: "test", message: "test" } });
   await screen.findByText("test : test");
-  await expect(server).toReceiveMessage( {recipients:["t"],message:"t"} );
-  server.error()
-
+  await expect(server).toReceiveMessage({ recipients: ["t"], message: "t" });
+  server.error();
 });

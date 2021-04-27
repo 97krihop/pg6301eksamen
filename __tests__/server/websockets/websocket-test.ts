@@ -73,14 +73,13 @@ describe("test webSocket server", () => {
     expect(client1Fn).toHaveBeenCalledTimes(1);
     expect(client1Fn).toHaveBeenCalledWith({
       message: { email: "test1", message: "test" },
-      recipients: ["test1", "test2","test3"],
+      recipients: ["test1", "test2", "test3"],
     });
     expect(client2Fn).toHaveBeenCalledTimes(1);
     expect(client2Fn).toHaveBeenCalledWith({
       message: { email: "test1", message: "test" },
-      recipients: ["test1", "test2","test3"],
+      recipients: ["test1", "test2", "test3"],
     });
-
 
     client1.close();
     client2.close();

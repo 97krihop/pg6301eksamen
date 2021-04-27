@@ -26,7 +26,7 @@ function clearAllUsers() {
   users.clear();
 }
 function makeDefaultUser() {
-  createUser("test@test.com","password1","test","test")
+  createUser("test@test.com", "password1", "test", "test");
 }
 
 module.exports = {
@@ -34,5 +34,5 @@ module.exports = {
   verifyUser,
   createUser,
   clearAllUsers,
-  makeDefaultUser
+  makeDefaultUser,
 };

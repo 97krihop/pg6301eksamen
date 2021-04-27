@@ -70,9 +70,8 @@ describe("test message component", () => {
       render(<Messages />);
     });
     await server.connected;
-    server.send({message:{email:"test",message:"test"}});
-    await screen.findByText("test : test")
-    WS.clean()
+    server.send({ message: { email: "test", message: "test" } });
+    await screen.findByText("test : test");
+    WS.clean();
   });
-
 });

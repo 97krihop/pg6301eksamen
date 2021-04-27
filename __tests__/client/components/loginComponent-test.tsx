@@ -33,5 +33,8 @@ it("should render inputField", async () => {
     await userEvent.click(b);
   });
   expect(postJson).toHaveBeenCalledTimes(1);
-  expect(postJson).toHaveBeenCalledWith("/api/login", { email:"t", password:"t" });
+  expect(postJson).toHaveBeenCalledWith("/api/login", {
+    email: "t",
+    password: "t",
+  });
 });
