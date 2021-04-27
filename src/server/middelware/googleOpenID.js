@@ -1,14 +1,7 @@
-const fetch = require("node-fetch");
+const fetchJson = require("../lib/fetchJson");
 
 const discoveryURL =
   "https://accounts.google.com/.well-known/openid-configuration";
-
-const fetchJson = async (url, options) => {
-  const res = await fetch(url, options);
-  if (!res.ok)
-    throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
-  return await res.json();
-};
 
 const googleOAuth = async (req, res, next) => {
   const Authorization = req.header("Authorization");
@@ -23,4 +16,4 @@ const googleOAuth = async (req, res, next) => {
   next();
 };
 
-module.exports = { fetchJson, googleOAuth };
+module.exports = googleOAuth;
