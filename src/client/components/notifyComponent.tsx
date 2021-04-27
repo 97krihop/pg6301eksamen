@@ -8,7 +8,6 @@ export const Notification = () => {
   const [paused, setPaused] = useState<boolean>(false);
   const history = useHistory();
   useEffect(() => {
-    console.log(history.location.pathname);
     setPaused(history.location.pathname === "/");
   }, [history.location]);
 
