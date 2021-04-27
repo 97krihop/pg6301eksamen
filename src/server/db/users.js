@@ -25,10 +25,14 @@ function createUser(email, password, firstname, lastname) {
 function clearAllUsers() {
   users.clear();
 }
+function makeDefaultUser() {
+  createUser("test@test.com","password1","test","test")
+}
 
 module.exports = {
   getUser,
   verifyUser,
   createUser,
   clearAllUsers,
+  makeDefaultUser
 };
