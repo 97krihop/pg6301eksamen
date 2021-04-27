@@ -35,7 +35,7 @@ describe("test notification webSocket server", () => {
       }, 5);
     });
   };
-
+  jest.retryTimes(3);
   it("multiple clients should get message", async () => {
     const client1 = new WebSocket(`ws://localhost:${server.address().port}`);
     const client2 = new WebSocket(`ws://localhost:${server.address().port}`);
