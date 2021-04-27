@@ -10,7 +10,7 @@ const conversations = require("./routes/conversasion-api");
 const app = express();
 
 const sessionParser = session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET||"secret",
   resave: false,
   saveUninitialized: false,
 });

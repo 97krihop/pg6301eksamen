@@ -25,6 +25,9 @@ beforeEach(() => {
   clearAllUsers();
   makeDefaultUser();
 });
+afterEach(() => {
+  clearAllUsers();
+});
 
 export const loginAsDefaultUser = async (agent: any) => {
   const res = await agent
@@ -103,8 +106,6 @@ describe("test auth api endpoint", () => {
   });
   it("should not able to ping if you have no session", async () => {
     const agent = request.agent(app);
-    const res = await agent.post("/logout");
-    expect(res.status).toBe(401);
     const res2 = await agent.post("/login");
     expect(res2.status).toBe(401);
     const res3 = await agent.post("/signup");
