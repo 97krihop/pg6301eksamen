@@ -13,7 +13,7 @@ export const ErrorView = ({ error }: { error: HttpException | null }) => {
           </Link>
         </div>
       );
-    return <div>{error.status + error.toString()}</div>;
+    return <div>{error.status +" " + error.toString()}</div>;
   }
   return <div />;
 };

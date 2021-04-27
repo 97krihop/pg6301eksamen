@@ -34,7 +34,7 @@ export class HttpException extends Error {
   status: number;
 
   constructor(res: Response, url: string) {
-    super(`Error while loading ${url}: ${res.status} ${res.statusText}`);
+    super(`Error while loading ${url} : ${res.status} ${res.statusText}`);
     this.status = res.status;
   }
 }
