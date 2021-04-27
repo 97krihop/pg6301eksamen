@@ -11,6 +11,7 @@ import { Profile } from "./pages/profile";
 import { Callback } from "./pages/callback";
 import { Logout } from "./pages/logout";
 import { NewUser } from "./pages/newUser";
+import { Notification } from "./components/notifyComponent";
 
 export interface IIdentityProvider {
   discoveryURL: string;
@@ -36,55 +37,58 @@ const googleAuth: IIdentityProvider = {
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <nav>
-        <Link to={"/"}>
-          <button className="button">Home</button>
-        </Link>
-        {"  "}
-        <Link to={"/profile"}>
-          <button className="button">profile</button>
-        </Link>
-        {"  "}
-        <Link to={"/login"}>
-          <button className="button">Login</button>
-        </Link>
-        {"  "}
-        <Link to={"/logout"}>
-          <button className="button">logout</button>
-        </Link>
-        {"  "}
-        <Link to={"/newUser"}>
-          <button className="button">new User</button>
-        </Link>
-      </nav>
+    <>
+      <BrowserRouter>
+        <nav>
+          <Link to={"/"}>
+            <button className="button">Home</button>
+          </Link>
+          {"  "}
+          <Link to={"/profile"}>
+            <button className="button">profile</button>
+          </Link>
+          {"  "}
+          <Link to={"/login"}>
+            <button className="button">Login</button>
+          </Link>
+          {"  "}
+          <Link to={"/logout"}>
+            <button className="button">logout</button>
+          </Link>
+          {"  "}
+          <Link to={"/newUser"}>
+            <button className="button">new User</button>
+          </Link>
+        </nav>
 
-      <main>
-        <Switch>
-          <Route exact path={"/login"}>
-            <Login identityProvider={googleAuth} />
-          </Route>
-          <Route exact path={"/logout"}>
-            <Logout />
-          </Route>
-          <Route exact path={"/"}>
-            <Home />
-          </Route>
-          <Route path={"/profile"}>
-            <Profile />
-          </Route>
-          <Route path={"/newUser"}>
-            <NewUser />
-          </Route>
-          <Route path={"/login/callback"}>
-            <Callback />
-          </Route>
-          <Route>
-            <NotFound />
-          </Route>
-        </Switch>
-      </main>
-    </BrowserRouter>
+        <main>
+          <Switch>
+            <Route exact path={"/login"}>
+              <Login identityProvider={googleAuth} />
+            </Route>
+            <Route exact path={"/logout"}>
+              <Logout />
+            </Route>
+            <Route exact path={"/"}>
+              <Home />
+            </Route>
+            <Route path={"/profile"}>
+              <Profile />
+            </Route>
+            <Route path={"/newUser"}>
+              <NewUser />
+            </Route>
+            <Route path={"/login/callback"}>
+              <Callback />
+            </Route>
+            <Route>
+              <NotFound />
+            </Route>
+          </Switch>
+          <Notification />
+        </main>
+      </BrowserRouter>
+    </>
   );
 };
 ReactDOM.render(<App />, document.getElementById("root"));
