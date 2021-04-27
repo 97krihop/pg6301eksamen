@@ -11,7 +11,11 @@ router.get("/profile", async (req, res) => {
 router.post("/login", (req, res) => {
   const { email, password } = req.body;
   if (verifyUser(email, password)) {
-    req.session.userinfo = getUser(email);
+    const user = getUser(email);
+
+    req.session.userinfo = { ...user };
+    req.session.userinfo.password = undefined;
+
     return res.status(204).send();
   }
   res.status(401).send();
