@@ -10,6 +10,6 @@ Messages.mockReturnValue(<div>test</div>);
 
 it("should render home", () => {
   render(<Home />);
-  screen.getByText("Chat app")
-  screen.getByText("test")
+  screen.getByText("Chat app");
+  screen.getByText("test");
 });

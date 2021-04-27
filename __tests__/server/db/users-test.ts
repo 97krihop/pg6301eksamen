@@ -16,8 +16,10 @@ describe("users DB tests", () => {
       email: "bob@bob.com",
       password: "password",
     };
-    expect(createUser(user.email, user.password, user.firstname, user.lastname)).toBe(true)
-    expect(getUser(user.email)).toEqual(user)
+    expect(
+      createUser(user.email, user.password, user.firstname, user.lastname)
+    ).toBe(true);
+    expect(getUser(user.email)).toEqual(user);
   });
   it("should fail at creating a user", async () => {
     const user = {
@@ -26,8 +28,12 @@ describe("users DB tests", () => {
       email: "bob@bob.com",
       password: "password",
     };
-    expect(createUser(user.email, user.password, user.firstname, user.lastname)).toBe(true)
-    expect(createUser(user.email, user.password, user.firstname, user.lastname)).toBe(false)
-    expect(getUser(user.email)).toEqual(user)
+    expect(
+      createUser(user.email, user.password, user.firstname, user.lastname)
+    ).toBe(true);
+    expect(
+      createUser(user.email, user.password, user.firstname, user.lastname)
+    ).toBe(false);
+    expect(getUser(user.email)).toEqual(user);
   });
 });
