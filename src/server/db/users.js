@@ -22,8 +22,13 @@ function createUser(email, password, firstname, lastname) {
   return true;
 }
 
+function clearAllUsers() {
+  users.clear();
+}
+
 module.exports = {
   getUser,
   verifyUser,
   createUser,
+  clearAllUsers,
 };
