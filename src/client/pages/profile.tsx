@@ -28,7 +28,7 @@ export function Profile() {
         </div>
         {data.picture && (
           <div>
-            <img src={data.picture} alt="pic" />
+            <img src={data.picture} alt="profile picture" />
           </div>
         )}
       </div>
