@@ -1,3 +1,4 @@
+import { waitForMessage, waitForSocket } from "./websocketHelper";
 const http = require("http");
 const wss = require("../../../src/server/websockets/websocket");
 const {
@@ -29,56 +30,49 @@ describe("test webSocket server", () => {
     clearMessages();
     server.close();
   });
-  const waitForSocket = async (socket: WebSocket, state: number) => {
-    return new Promise(function (resolve) {
-      setTimeout(() => {
-        if (socket.readyState === state) {
-          resolve("");
-        } else {
-          waitForSocket(socket, state).then(resolve);
-        }
-      }, 5);
-    });
-  };
-  jest.retryTimes(3);
   it("multiple clients be able to send and receive messages", async () => {
     const client1 = new WebSocket(`ws://localhost:${server.address().port}`);
     const client2 = new WebSocket(`ws://localhost:${server.address().port}`);
+
     const openFn = jest.fn();
     const client1Fn = jest.fn();
+    const client1R = { received: false };
+    const client2R = { received: false };
     const client2Fn = jest.fn();
     client1.onopen = () => {
       openFn("open");
     };
     client1.onmessage = (e) => {
       client1Fn(JSON.parse(e.data));
+      client1R.received = true;
     };
     client2.onopen = () => {
       openFn("open");
     };
     client2.onmessage = (e) => {
       client2Fn(JSON.parse(e.data));
+      client2R.received = true;
     };
 
     await waitForSocket(client1, WebSocket.OPEN);
     await waitForSocket(client2, WebSocket.OPEN);
     await client1.send(
-      JSON.stringify({ recipients: ["test2", "test3"], message: "test" })
+      JSON.stringify({ recipients: ["test2"], message: "test" })
     );
-    await waitForSocket(client1, WebSocket.OPEN);
-    await waitForSocket(client2, WebSocket.OPEN);
+    await waitForMessage(client1R);
+    await waitForMessage(client2R);
 
     expect(openFn).toHaveBeenCalledTimes(2);
     expect(openFn).toHaveBeenCalledWith("open");
     expect(client1Fn).toHaveBeenCalledTimes(1);
     expect(client1Fn).toHaveBeenCalledWith({
       message: { email: "test1", message: "test" },
-      recipients: ["test1", "test2", "test3"],
+      recipients: ["test1", "test2"],
     });
     expect(client2Fn).toHaveBeenCalledTimes(1);
     expect(client2Fn).toHaveBeenCalledWith({
       message: { email: "test1", message: "test" },
-      recipients: ["test1", "test2", "test3"],
+      recipients: ["test1", "test2"],
     });
 
     client1.close();
