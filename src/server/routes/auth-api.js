@@ -43,9 +43,10 @@ router.post("/callback", (req, res) => {
     sub: password,
     given_name: firstname,
     family_name: lastname,
+    picture
   } = userinfo;
 
-  req.session.userinfo = { ...email, firstname, lastname };
+  req.session.userinfo = {picture, email, firstname, lastname};
 
   const success = createUser(email, password, firstname, lastname);
   if (!success) return res.status(200).json({});
